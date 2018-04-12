@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>jquery.earth-3d.js plugin - draw a 3d spinning earth on canvas with javascript</title>
+    <meta itemprop="name" content="jquery.earth-3d.js">
+    <meta itemprop="description" content="Based on the amazing sphere.js plugin of Sam Hasler, jquery.earth3d.js is an open source jquery plugin which will allow you to emulate a 3d earth (or any planet actually) on canvas.">
+    <meta itemprop="image" content="images/preview.png">
+    <link rel="stylesheet" href="css/demo.css">
+    <script type="text/javascript" src="plugins/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery.ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="plugins/sphere/requestanimationframe.polyfill.js"></script>
+    <script type="text/javascript" src="sphere-hacked.js"></script>
+    <script type="text/javascript" src="jquery.earth-3d.js"></script>
+</head>
+
+<body>
+    <div id="container">
+        <canvas id="J_Sphere" width="400" height="400"></canvas>
+        <div id="glow-shadows" class="earth"></div>
+    </div>
+
+    <div class="actions">
+        <button type="button" id="J_Start">开始</button>
+        <button type="button" id="J_End">结束</button>
+    </div>
+
+    <script>
+        var sphere = $('#J_Sphere');
+        var startBtn = $('#J_Start');
+        var endBtn = $('#J_End');
+        var firstRaffle = true;
+        // 初始化
+        sphere.earth3d({
+            // dragElement: $('#locations') // where do we catch the mouse drag
+            texture: 'images/demo.png',
+            defaultSpeed: 0
+        });
+        // 开始旋转
+        function rafflingStart() {
+            if (!firstRaffle) {
+                rafflingStop();
+                $('#J_Sphere').replaceWith($('<canvas id="J_Sphere" width="400" height="400"></canvas>'));
+            }
+            $('#J_Sphere').earth3d({
+                texture: 'images/demo.png',
+                defaultSpeed: 800
+            });
+        }
+        // 停止旋转
+        function rafflingStop() {
+            $('#J_Sphere').earth3d('destroy');
+            firstRaffle = false;
+        }
+
+        startBtn.on('click', function () {
+            rafflingStart();
+        });
+
+        endBtn.on('click', function () {
+            rafflingStop();
+        });
+    </script>
+</body>
+
+</html>
